@@ -3,12 +3,12 @@ import UIKit
 import SafariServices
 import AuthenticationServices
 
-public class SwiftFlutterToricoIdLoginPlugin: NSObject, FlutterPlugin, ASWebAuthenticationPresentationContextProviding, {
+public class SwiftFlutterToricoIdLoginPlugin: NSObject, FlutterPlugin, ASWebAuthenticationPresentationContextProviding {
   var session: Any? = nil
   
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(
-      name: "flutter_torico_id_login",
+      name: "torico/flutter_torico_id_login",
       binaryMessenger: registrar.messenger()
     )
     let instance = SwiftFlutterToricoIdLoginPlugin()
@@ -68,7 +68,10 @@ public class SwiftFlutterToricoIdLoginPlugin: NSObject, FlutterPlugin, ASWebAuth
       // SFSafariViewController
       // Safari のCookieが使えない
       let url = URL(string: url)
-      SFSafariController.open(url)
+      if let url = url {
+        let controller = SFSafariController.init(url: url)
+        controller.open()
+      }
     } else {
       // iOS 9.0以前は未対応
       result(nil)
