@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+class ViewController {
+  static func get() -> UIViewController {
+    let viewController = UIApplication.shared.windows.filter { (v) -> Bool in
+        v.isHidden == false
+    }.first?.rootViewController
+    return viewController!
+  }
+}
