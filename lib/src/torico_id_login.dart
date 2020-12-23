@@ -25,7 +25,9 @@ const METHOD_NAME = 'torico/flutter_torico_id_login';
 
 ///
 class ToricoIdLogin {
-  static const MethodChannel _channel = const MethodChannel(METHOD_NAME);
+  static const _channel = const MethodChannel(METHOD_NAME);
+  static final _eventChannel = EventChannel('$METHOD_NAME/event');
+  static final _eventStream = _eventChannel.receiveBroadcastStream();
 
   /// OAuth Request URL
   final String url;
@@ -66,7 +68,14 @@ class ToricoIdLogin {
           'redirectURI': redirectURI,
         });
       } else if (Platform.isAndroid) {
+        final uri = Uri.parse(redirectURI);
+        await _channel.invokeMethod('setScheme', uri.scheme);
         final completer = Completer<String>();
+        final subscribe = _eventStream.listen((data) async {
+          if (data['type'] == 'url') {
+            completer.complete(data['url']?.toString());
+          }
+        });
         final browser = ChromeCustomTab(
           onClose: () {
             if (!completer.isCompleted) {
@@ -75,6 +84,8 @@ class ToricoIdLogin {
           },
         );
         await browser.open(url: _url.toString());
+        resultURI = await completer.future;
+        subscribe.cancel();
       }
       if (resultURI == null) {
         throw CanceledByUserException();
@@ -98,7 +109,7 @@ class ToricoIdLogin {
         null,
         null,
         ToricoIDLoginStatus.cancelledByUser,
-        e.toString(),
+        'ログインをキャンセルしました',
       );
     } on Exception catch (e) {
       return AuthResult(
