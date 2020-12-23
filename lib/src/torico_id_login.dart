@@ -80,6 +80,8 @@ class ToricoIdLogin {
         throw CanceledByUserException();
       }
 
+      print(resultURI);
+
       // login_token, is_tester を受け取り返す
       final queries = Uri.splitQueryString(Uri.parse(resultURI).query);
       if (queries['error'] != null) {
