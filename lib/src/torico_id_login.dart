@@ -44,7 +44,7 @@ class ToricoIdLogin {
         assert(redirectURI != null),
         assert(clientId != null);
 
-  Future<void> login() async {
+  Future<AuthResult> login() async {
     if (!Platform.isAndroid && !Platform.isIOS) {
       throw UnsupportedError('Not supported by this os.');
     }
