@@ -29,7 +29,7 @@ public class SwiftFlutterToricoIdLoginPlugin: NSObject, FlutterPlugin, ASWebAuth
   public func authentication(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     let args = call.arguments as! NSDictionary
     let url = args["url"] as! String
-    let urlScheme = args["redirectURL"] as! String
+    let urlScheme = args["redirectURI"] as! String
     
     if #available(iOS 12.0, *) {
       // ASWebAuthenticationSession
@@ -66,7 +66,7 @@ public class SwiftFlutterToricoIdLoginPlugin: NSObject, FlutterPlugin, ASWebAuth
       }
     } else if #available(iOS 9.0, *){
       // SFSafariViewController
-      // Safari のCookieが使えない
+      // Safari のCookieが使えないのでログイン情報の共有は出来ない
       let url = URL(string: url)
       if let url = url {
         let controller = SFSafariController.init(url: url)
