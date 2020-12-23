@@ -58,7 +58,7 @@ class ToricoIdLogin {
           'refer': '',
         },
       );
-      print(_url.toString());
+      debugPrint(_url.toString());
       String resultURI = '';
       if (Platform.isIOS) {
         resultURI = await _channel.invokeMethod('authentication', {
@@ -74,7 +74,7 @@ class ToricoIdLogin {
             }
           },
         );
-        await browser.open(url: 'https://google.com');
+        await browser.open(url: _url.toString());
       }
       if (resultURI == null) {
         throw CanceledByUserException();
