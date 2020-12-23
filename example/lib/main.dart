@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_torico_id_login/flutter_torico_id_login.dart';
+import 'package:flutter_torico_id_login_example/consts.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,8 +24,9 @@ class _MyAppState extends State<MyApp> {
             child: Text('login'),
             onPressed: () {
               final toricoIdLogin = ToricoIdLogin(
-                url: 'XXXXX',
-                redirectURI: 'example://',
+                url: URL,
+                redirectURI: REDIRECT_URI,
+                clientId: CLIENT_ID,
               );
               toricoIdLogin.login();
             },
