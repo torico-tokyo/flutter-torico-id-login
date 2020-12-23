@@ -13,3 +13,5 @@ build/
 **/ios/Flutter/.last_build_id
 
 local.properties
+
+example/lib/consts.dart
