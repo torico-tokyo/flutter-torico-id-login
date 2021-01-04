@@ -18,7 +18,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 import io.flutter.plugin.common.PluginRegistry.NewIntentListener
 import java.sql.DriverManager.println
 
-const val METHOD_NAME: string = "torico/flutter_torico_id_login"
+const val METHOD_NAME: String? = "torico/flutter_torico_id_login"
 
 /** FlutterToricoIdLoginPlugin */
 class FlutterToricoIdLoginPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, NewIntentListener {
@@ -30,7 +30,7 @@ class FlutterToricoIdLoginPlugin: FlutterPlugin, MethodCallHandler, ActivityAwar
   private var eventChannel: EventChannel? = null
   private var eventSink: EventSink? = null
   private var activityPluginBinding: ActivityPluginBinding? = null
-  private var scheme: string? = ""
+  private var scheme: String? = ""
 
   companion object {
     @JvmStatic
@@ -49,8 +49,8 @@ class FlutterToricoIdLoginPlugin: FlutterPlugin, MethodCallHandler, ActivityAwar
     }
   }
 
-  fun onAttachedToEngine(messanger: BinaryMessenger) {
-    methodChannel = MethodChannel(messanger, METHOD_NAME)
+  fun onAttachedToEngine(messenger: BinaryMessenger) {
+    methodChannel = MethodChannel(messenger, METHOD_NAME)
     methodChannel!!.setMethodCallHandler(this)
 
     eventChannel = EventChannel(messenger, "${METHOD_NAME}/event")

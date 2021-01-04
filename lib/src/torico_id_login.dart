@@ -90,13 +90,8 @@ class ToricoIdLogin {
       if (resultURI == null) {
         throw CanceledByUserException();
       }
-
-      debugPrint(resultURI);
-
       // login_token, is_tester を受け取り返す
       final queries = Uri.splitQueryString(Uri.parse(resultURI).query);
-      print('result: $queries');
-
       if (queries['error'] != null) {
         throw Exception(queries['error']);
       }

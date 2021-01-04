@@ -19,7 +19,6 @@ public class SwiftFlutterToricoIdLoginPlugin: NSObject, FlutterPlugin, ASWebAuth
     switch call.method {
     case "authentication":
       authentication(call, result: result)
-      break
     default:
       result(FlutterMethodNotImplemented)
       break
