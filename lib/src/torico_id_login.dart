@@ -103,7 +103,7 @@ class ToricoIdLogin {
 
       return AuthResult(
         queries['login_token'],
-        queries['is_tester'] as int,
+        int.parse(queries['is_tester']),
         ToricoIDLoginStatus.loggedIn,
         '',
       );
