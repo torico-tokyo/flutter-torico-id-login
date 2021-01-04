@@ -18,7 +18,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 import io.flutter.plugin.common.PluginRegistry.NewIntentListener
 import java.sql.DriverManager.println
 
-const val METHOD_NAME: String? = "torico/flutter_torico_id_login"
+const val METHOD_NAME: String = "torico/flutter_torico_id_login"
 
 /** FlutterToricoIdLoginPlugin */
 class FlutterToricoIdLoginPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, NewIntentListener {
