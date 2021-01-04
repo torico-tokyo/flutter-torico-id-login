@@ -95,11 +95,12 @@ class ToricoIdLogin {
 
       // login_token, is_tester を受け取り返す
       final queries = Uri.splitQueryString(Uri.parse(resultURI).query);
-      print(queries);
+      print('result: $queries');
 
       if (queries['error'] != null) {
         throw Exception(queries['error']);
       }
+
       return AuthResult(
         queries['login_token'],
         queries['is_tester'] ?? 0,
