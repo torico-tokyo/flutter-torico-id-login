@@ -38,13 +38,21 @@ class ToricoIdLogin {
   /// Client ID
   final String clientId;
 
+  final String deviceId;
+
+  final String callbackURI;
+
   ToricoIdLogin({
     @required this.url,
     @required this.redirectURI,
+    @required this.callbackURI,
     @required this.clientId,
+    @required this.deviceId,
   })  : assert(url != null),
         assert(redirectURI != null),
-        assert(clientId != null);
+        assert(callbackURI != null),
+        assert(clientId != null),
+        assert(deviceId != null);
 
   Future<AuthResult> login() async {
     if (!Platform.isAndroid && !Platform.isIOS) {
@@ -56,6 +64,8 @@ class ToricoIdLogin {
         queryParameters: {
           'client_id': clientId,
           'redirect_uri': redirectURI,
+          'next': callbackURI,
+          'device_id': deviceId,
           'auto_provider': '',
           'refer': '',
         },
