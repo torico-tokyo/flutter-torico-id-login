@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
               final toricoIdLogin = ToricoIdLogin(
                 url: URL,
                 redirectURI: REDIRECT_URI,
-                clientId: CLIENT_ID,
+                deviceId: '',
               );
               toricoIdLogin.login();
             },

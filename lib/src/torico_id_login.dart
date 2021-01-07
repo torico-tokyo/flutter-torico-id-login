@@ -16,6 +16,9 @@ enum ToricoIDLoginStatus {
   /// The user cancelled the login flow.
   cancelledByUser,
 
+  /// The User not found by application.
+  NotFoundCustomer,
+
   /// The Twitter login completed with an error.
   error,
 }
@@ -35,19 +38,14 @@ class ToricoIdLogin {
   /// Callback URLs (https or DeepLink...)
   final String redirectURI;
 
-  /// Client ID
-  final String clientId;
-
   final String deviceId;
 
   ToricoIdLogin({
     @required this.url,
     @required this.redirectURI,
-    @required this.clientId,
     @required this.deviceId,
   })  : assert(url != null),
         assert(redirectURI != null),
-        assert(clientId != null),
         assert(deviceId != null);
 
   Future<AuthResult> login() async {
@@ -58,7 +56,6 @@ class ToricoIdLogin {
     try {
       final _url = Uri.parse(url).replace(
         queryParameters: {
-          'client_id': clientId,
           'redirect_uri': redirectURI,
           'device_id': deviceId,
         },
@@ -95,6 +92,15 @@ class ToricoIdLogin {
       }
       // login_token, is_tester を受け取り返す
       final queries = Uri.splitQueryString(Uri.parse(resultURI).query);
+
+      // next があれば未登録
+      if (queries['next'] != null) {
+        throw NotFoundCustomerException(
+          url: queries['next'],
+          message: queries['error'],
+        );
+      }
+
       if (queries['error'] != null) {
         throw Exception(queries['error']);
       }
@@ -103,21 +109,28 @@ class ToricoIdLogin {
         queries['login_token'],
         int.parse(queries['is_tester']),
         ToricoIDLoginStatus.loggedIn,
-        '',
+      );
+    } on NotFoundCustomerException catch (e) {
+      return AuthResult(
+        null,
+        null,
+        ToricoIDLoginStatus.cancelledByUser,
+        message: e.message,
+        url: e.url,
       );
     } on CanceledByUserException catch (e) {
       return AuthResult(
         null,
         null,
         ToricoIDLoginStatus.cancelledByUser,
-        'ログインをキャンセルしました',
+        message: 'ログインをキャンセルしました',
       );
     } on Exception catch (e) {
       return AuthResult(
         null,
         null,
         ToricoIDLoginStatus.error,
-        e.toString(),
+        message: e.toString(),
       );
     }
   }
