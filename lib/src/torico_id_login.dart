@@ -17,7 +17,7 @@ enum ToricoIDLoginStatus {
   cancelledByUser,
 
   /// The User not found by application.
-  NotFoundCustomer,
+  notFoundCustomer,
 
   /// The Twitter login completed with an error.
   error,
@@ -114,7 +114,7 @@ class ToricoIdLogin {
       return AuthResult(
         null,
         null,
-        ToricoIDLoginStatus.cancelledByUser,
+        ToricoIDLoginStatus.notFoundCustomer,
         message: e.message,
         url: e.url,
       );
