@@ -1,6 +1,7 @@
 name: flutter_torico_id_login
 description: A new Flutter plugin.
 version: 0.0.1
+publish_to: none
 author:
 homepage:
 
