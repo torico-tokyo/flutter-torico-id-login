@@ -40,19 +40,16 @@ class ToricoIdLogin {
 
   final String deviceId;
 
-  final bool forceLogin;
-
   ToricoIdLogin({
     @required this.url,
     @required this.redirectURI,
     @required this.deviceId,
-    this.forceLogin = false,
   })  : assert(url != null),
         assert(redirectURI != null),
-        assert(deviceId != null),
-        assert(forceLogin != null);
+        assert(deviceId != null);
 
-  Future<AuthResult> login() async {
+  /// forceLogin true にすることでcookie を無視してログイン情報を入力させることができる
+  Future<AuthResult> login({bool forceLogin = false}) async {
     if (!Platform.isAndroid && !Platform.isIOS) {
       throw UnsupportedError('Not supported by this os.');
     }
