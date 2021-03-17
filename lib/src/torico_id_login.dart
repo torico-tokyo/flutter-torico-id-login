@@ -40,13 +40,17 @@ class ToricoIdLogin {
 
   final String deviceId;
 
+  final bool forceLogin;
+
   ToricoIdLogin({
     @required this.url,
     @required this.redirectURI,
     @required this.deviceId,
+    this.forceLogin = false,
   })  : assert(url != null),
         assert(redirectURI != null),
-        assert(deviceId != null);
+        assert(deviceId != null),
+        assert(forceLogin != null);
 
   Future<AuthResult> login() async {
     if (!Platform.isAndroid && !Platform.isIOS) {
@@ -66,6 +70,7 @@ class ToricoIdLogin {
         resultURI = await _channel.invokeMethod('authentication', {
           'url': _url.toString(),
           'redirectURI': redirectURI,
+          'forceLogin': forceLogin,
         });
       } else if (Platform.isAndroid) {
         final uri = Uri.parse(redirectURI);

@@ -1,6 +1,7 @@
 import Flutter
 import UIKit
 import SafariServices
+import Foundation
 import AuthenticationServices
 
 public class SwiftFlutterToricoIdLoginPlugin: NSObject, FlutterPlugin, ASWebAuthenticationPresentationContextProviding {
@@ -29,6 +30,16 @@ public class SwiftFlutterToricoIdLoginPlugin: NSObject, FlutterPlugin, ASWebAuth
     let args = call.arguments as! NSDictionary
     let url = args["url"] as! String
     let urlScheme = args["redirectURI"] as! String
+    let forceLogin = args["forceLogin"] as! Bool
+    
+    if (forceLogin) {
+      let url = URL(string: url)
+      if let url = url {
+        let safari = SFSafariController.init(url: url)
+        safari.open(url: url)
+        return
+      }
+    }
     
     if #available(iOS 12.0, *) {
       // ASWebAuthenticationSession
@@ -46,7 +57,7 @@ public class SwiftFlutterToricoIdLoginPlugin: NSObject, FlutterPlugin, ASWebAuth
         authSession?.presentationContextProvider = self
       }
       if !authSession!.start() {
-        
+
       }
     } else if #available(iOS 11.0, *) {
       // SFAuthenticationSession
@@ -61,15 +72,16 @@ public class SwiftFlutterToricoIdLoginPlugin: NSObject, FlutterPlugin, ASWebAuth
       }
       self.session = authSession
       if !authSession!.start() {
-        
+
       }
     } else if #available(iOS 9.0, *){
       // SFSafariViewController
       // Safari のCookieが使えないのでログイン情報の共有は出来ない
       let url = URL(string: url)
       if let url = url {
-        let controller = SFSafariController.init(url: url)
-        controller.open()
+        let safari = SFSafariController.init(url: url)
+        safari.open(url: url)
+        return
       }
     } else {
       // iOS 9.0以前は未対応
@@ -83,3 +95,4 @@ public class SwiftFlutterToricoIdLoginPlugin: NSObject, FlutterPlugin, ASWebAuth
       return UIApplication.shared.delegate!.window!!
   }
 }
+

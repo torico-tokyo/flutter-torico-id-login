@@ -10,15 +10,13 @@ import SafariServices
 
 @available(iOS 9.0, *)
 public class SFSafariController: SFSafariViewController, SFSafariViewControllerDelegate {
-  public func open() {
+  
+  public func open(url: URL) {
     if let flutterViewController = UIApplication.shared.delegate?.window?.unsafelyUnwrapped.rootViewController as? FlutterViewController {
       let safari: SFSafariViewController
-      let url = URL(string: "https://google.com")
-      if let url = url {
-        safari = SFSafariViewController(url: url)
-        flutterViewController.present(safari, animated: true) {
-          return
-        }
+      safari = SFSafariViewController(url: url)
+      flutterViewController.present(safari, animated: true) {
+        return
       }
     }
   }
