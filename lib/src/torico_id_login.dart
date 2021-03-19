@@ -151,7 +151,7 @@ class ToricoIdLogin {
       debugPrint(_url.toString());
       String resultURI = '';
       if (Platform.isIOS) {
-        resultURI = await _channel.invokeMethod('authentication', {
+        resultURI = await _channel.invokeMethod('logout', {
           'url': _url.toString(),
           'redirectURI': redirectURI,
         });
