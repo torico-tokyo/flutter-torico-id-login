@@ -136,4 +136,50 @@ class ToricoIdLogin {
       );
     }
   }
+
+  Future<void> logout() async {
+    if (!Platform.isAndroid && !Platform.isIOS) {
+      throw UnsupportedError('Not supported by this os.');
+    }
+
+    try {
+      final _url = Uri.parse(url).replace(
+        queryParameters: {
+          'next': redirectURI,
+        },
+      );
+      debugPrint(_url.toString());
+      String resultURI = '';
+      if (Platform.isIOS) {
+        resultURI = await _channel.invokeMethod('authentication', {
+          'url': _url.toString(),
+          'redirectURI': redirectURI,
+        });
+      } else if (Platform.isAndroid) {
+        final uri = Uri.parse(redirectURI);
+        await _channel.invokeMethod('setScheme', uri.scheme);
+        final completer = Completer<String>();
+        final subscribe = _eventStream.listen((data) async {
+          if (data['type'] == 'url') {
+            completer.complete(data['url']?.toString());
+          }
+        });
+        final browser = ChromeCustomTab(
+          onClose: () {
+            if (!completer.isCompleted) {
+              completer.complete(null);
+            }
+          },
+        );
+        await browser.open(url: _url.toString());
+        resultURI = await completer.future;
+        subscribe.cancel();
+      }
+      if (resultURI == null) {
+        throw CanceledByUserException();
+      }
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
 }
