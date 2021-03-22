@@ -38,18 +38,17 @@ class ToricoIdLogin {
   /// Callback URLs (https or DeepLink...)
   final String redirectURI;
 
-  final String deviceId;
-
   ToricoIdLogin({
     @required this.url,
     @required this.redirectURI,
-    @required this.deviceId,
   })  : assert(url != null),
-        assert(redirectURI != null),
-        assert(deviceId != null);
+        assert(redirectURI != null);
 
   /// forceLogin true にすることでcookie を無視してログイン情報を入力させることができる
-  Future<AuthResult> login({bool forceLogin = false}) async {
+  Future<AuthResult> login(
+    String deviceId, {
+    bool forceLogin = false,
+  }) async {
     if (!Platform.isAndroid && !Platform.isIOS) {
       throw UnsupportedError('Not supported by this os.');
     }

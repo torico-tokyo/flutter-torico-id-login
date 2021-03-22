@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: FlatButton(
+          child: TextButton(
             child: Text('login'),
             onPressed: () {
               final toricoIdLogin = ToricoIdLogin(
