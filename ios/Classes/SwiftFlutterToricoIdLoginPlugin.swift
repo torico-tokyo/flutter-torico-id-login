@@ -57,6 +57,7 @@ public class SwiftFlutterToricoIdLoginPlugin: NSObject, FlutterPlugin, ASWebAuth
       self.session = authSession
       if #available(iOS 13.0, *) {
         authSession?.presentationContextProvider = self
+        authSession?.prefersEphemeralWebBrowserSession = true
       }
       if !authSession!.start() {
 
@@ -111,6 +112,7 @@ public class SwiftFlutterToricoIdLoginPlugin: NSObject, FlutterPlugin, ASWebAuth
       self.session = authSession
       if #available(iOS 13.0, *) {
         authSession?.presentationContextProvider = self
+        
       }
       if !authSession!.start() {
 
