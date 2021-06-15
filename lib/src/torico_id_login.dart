@@ -39,8 +39,8 @@ class ToricoIdLogin {
   final String redirectURI;
 
   ToricoIdLogin({
-    @required this.url,
-    @required this.redirectURI,
+    required this.url,
+    required this.redirectURI,
   })  : assert(url != null),
         assert(redirectURI != null);
 
@@ -61,13 +61,13 @@ class ToricoIdLogin {
         },
       );
       debugPrint(_url.toString());
-      String resultURI = '';
+      String? resultURI = '';
       if (Platform.isIOS) {
-        resultURI = await _channel.invokeMethod('authentication', {
+        resultURI = await (_channel.invokeMethod('authentication', {
           'url': _url.toString(),
           'redirectURI': redirectURI,
           'forceLogin': forceLogin,
-        });
+        }) as FutureOr<String>);
       } else if (Platform.isAndroid) {
         final uri = Uri.parse(redirectURI);
         await _channel.invokeMethod('setScheme', uri.scheme);
@@ -108,7 +108,7 @@ class ToricoIdLogin {
 
       return AuthResult(
         queries['login_token'],
-        int.parse(queries['is_tester']),
+        int.parse(queries['is_tester']!),
         ToricoIDLoginStatus.loggedIn,
       );
     } on NotFoundCustomerException catch (e) {
@@ -148,12 +148,12 @@ class ToricoIdLogin {
         },
       );
       debugPrint(_url.toString());
-      String resultURI = '';
+      String? resultURI = '';
       if (Platform.isIOS) {
-        resultURI = await _channel.invokeMethod('logout', {
+        resultURI = await (_channel.invokeMethod('logout', {
           'url': _url.toString(),
           'redirectURI': redirectURI,
-        });
+        }) as FutureOr<String>);
       } else if (Platform.isAndroid) {
         final uri = Uri.parse(redirectURI);
         await _channel.invokeMethod('setScheme', uri.scheme);
