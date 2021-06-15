@@ -6,15 +6,15 @@ class CanceledByUserException implements Exception {
 }
 
 class NotFoundCustomerException implements Exception {
-  final String _url;
-  final String _message;
+  final String? _url;
+  final String? _message;
 
-  String get url => _url;
-  String get message => _message;
+  String? get url => _url;
+  String? get message => _message;
 
   const NotFoundCustomerException({
-    String url,
-    String message,
+    String? url,
+    String? message,
   })  : _url = url,
         _message = message;
 
