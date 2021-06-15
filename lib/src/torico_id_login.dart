@@ -84,7 +84,7 @@ class ToricoIdLogin {
             }
           },
         );
-        await browser.open(url: _url.toString());
+        await browser.open(url: _url);
         resultURI = await completer.future;
         subscribe.cancel();
       }
@@ -170,7 +170,7 @@ class ToricoIdLogin {
             }
           },
         );
-        await browser.open(url: _url.toString());
+        await browser.open(url: _url);
         resultURI = await completer.future;
         subscribe.cancel();
       }
